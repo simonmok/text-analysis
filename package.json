@@ -1,0 +1,21 @@
+{
+  "name": "text-analysis",
+  "version": "1.0.0",
+  "description": "Text analysis using TD-IDF",
+  "main": "all-local.bat",
+  "dependencies": {
+    "npm": "^5.8.0",
+    "readline": "^1.3.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonmok/text-analysis.git"
+  },
+  "author": "Simon Mok",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonmok/text-analysis/issues"
+  },
+  "homepage": "https://github.com/simonmok/text-analysis#readme"
+}

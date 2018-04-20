@@ -1,0 +1,4 @@
+"This is a dog.
+This is not a cat." the dog says.
+"This is a cat.
+This is not a dog." the cat says.
