@@ -1,0 +1,101 @@
+<workflow-app name="Word Analysis" xmlns="uri:oozie:workflow:0.5">
+    <start to="streaming-84f4"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+	<action name="streaming-84f4">
+        <map-reduce>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <streaming>
+                <mapper>/home/vagrant/text-analysis/term-map.js</mapper>
+                <reducer>/home/vagrant/text-analysis/term-reduce.js</reducer>
+            </streaming>
+            <configuration>
+                <property>
+                    <name>oozie.use.system.libpath</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>mapred.input.dir</name>
+                    <value>/user/vagrant/text-analysis/input</value>
+                </property>
+                <property>
+                    <name>mapred.output.dir</name>
+                    <value>/user/vagrant/text-analysis/output-term</value>
+                </property>
+                <property>
+                    <name>stream.num.map.output.key.fields</name>
+                    <value>2</value>
+                </property>
+            </configuration>
+        </map-reduce>
+        <ok to="streaming-6138"/>
+        <error to="Kill"/>
+    </action>
+	<action name="streaming-6138">
+        <map-reduce>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <streaming>
+                <mapper>/home/vagrant/text-analysis/document-map.js</mapper>
+                <reducer>/home/vagrant/text-analysis/document-reduce.js</reducer>
+            </streaming>
+            <configuration>
+                <property>
+                    <name>oozie.use.system.libpath</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>mapred.input.dir</name>
+                    <value>/user/vagrant/text-analysis/output-term</value>
+                </property>
+                <property>
+                    <name>mapred.output.dir</name>
+                    <value>/user/vagrant/text-analysis/output-document</value>
+                </property>
+                <property>
+                    <name>stream.num.map.output.key.fields</name>
+                    <value>1</value>
+                </property>
+            </configuration>
+        </map-reduce>
+        <ok to="streaming-1279"/>
+        <error to="Kill"/>
+    </action>
+    <action name="streaming-1279">
+        <map-reduce>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <streaming>
+                <mapper>/home/vagrant/text-analysis/stat-map.js</mapper>
+                <reducer>/home/vagrant/text-analysis/stat-reduce.js</reducer>
+            </streaming>
+            <configuration>
+                <property>
+                    <name>oozie.use.system.libpath</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>mapred.input.dir</name>
+                    <value>/user/vagrant/text-analysis/output-document</value>
+                </property>
+                <property>
+                    <name>mapred.output.dir</name>
+                    <value>/user/vagrant/text-analysis/output-stat</value>
+                </property>
+                <property>
+                    <name>stream.num.map.output.key.fields</name>
+                    <value>2</value>
+                </property>
+                <property>
+                    <name>FILE_COUNT</name>
+                    <value>2</value>
+                </property>
+            </configuration>
+        </map-reduce>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+    <end name="End"/>
+</workflow-app>
