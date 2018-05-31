@@ -13,7 +13,6 @@ rl.on('line', function (line) {
 	var values = line.split('\t'), term = values[0], file = values[1], tf = parseInt(values[2]), df = parseInt(values[3]);
 	if (term == curterm) {
 		curdf += df;
-		buffer.push([term, file, tf].join('\t'));
 	} else {
 		outputLine(buffer, curterm, curfile, curtf, curdf);
 		buffer.length = 0;
@@ -22,6 +21,7 @@ rl.on('line', function (line) {
 		curtf = tf;
 		curdf = df;
 	}
+	buffer.push([term, file, tf].join('\t'));
 }).on('close', function () {
 	outputLine(buffer, curterm, curfile, curtf, curdf);
 });
