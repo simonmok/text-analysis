@@ -1,3 +1,5 @@
+#!/usr/bin/nodejs
+
 var readline = require('readline');
 
 var rl = readline.createInterface({
@@ -6,21 +8,22 @@ var rl = readline.createInterface({
 	terminal: false
 });
 
-var curnum = 0, curterm, curfile;
+var prevnum = 0, prevterm, prevfile, prevlength;
 rl.on('line', function (line) {
-	var values = line.split('\t'), term = values[0], file = values[1], num = parseInt(values[2]);
-	if (term == curterm && file == curfile) {
-		curnum += num;
+	var values = line.split('\t'), term = values[0], file = values[1], num = parseInt(values[2]), length = parseInt(values[3]);
+	if (term == prevterm && file == prevfile) {
+		prevnum += num;
 	} else {
-		outputLine(curterm, curfile, curnum);
-		curterm = term;
-		curfile = file;
-		curnum = num;
+		outputLine(prevterm, prevfile, prevnum, prevlength);
+		prevterm = term;
+		prevfile = file;
+		prevnum = num;
+		prevlength = length;
 	}
 }).on('close', function () {
-	outputLine(curterm, curfile, curnum);
+	outputLine(prevterm, prevfile, prevnum, prevlength);
 });
 
-function outputLine(curterm, curfile, curnum) {
-	curnum > 0 && console.log([curterm, curfile, curnum].join('\t'));
+function outputLine(term, file, num, length) {
+	num > 0 && console.log([term, file, num, length].join('\t'));
 }

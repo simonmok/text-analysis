@@ -8,27 +8,24 @@ var rl = readline.createInterface({
 	terminal: false
 });
 
-var curtf = 0, curdf = 0, curterm, curfile, buffer = [];
+var curdf = 0, curterm, buffer = [];
 rl.on('line', function (line) {
-	var values = line.split('\t'), term = values[0], file = values[1], tf = parseInt(values[2]), df = parseInt(values[3]);
+	var values = line.split('\t'), term = values[0], file = values[1], tf = parseInt(values[2]), length = parseInt(values[3]), df = parseInt(values[4]);
 	if (term == curterm) {
 		curdf += df;
 	} else {
-		outputLine(buffer, curterm, curfile, curtf, curdf);
+		outputLine(buffer, curdf);
 		buffer.length = 0;
 		curterm = term;
-		curfile = file;
-		curtf = tf;
 		curdf = df;
 	}
-	buffer.push([term, file, tf].join('\t'));
+	buffer.push([term, file, tf, length].join('\t'));
 }).on('close', function () {
-	outputLine(buffer, curterm, curfile, curtf, curdf);
+	outputLine(buffer, curdf);
 });
 
-function outputLine(buffer, curterm, curfile, curtf, curdf) {
+function outputLine(buffer, df) {
 	buffer.forEach(function (item) {
-		console.log([item, curdf].join('\t'))
+		console.log([item, df].join('\t'));
 	});
-	curtf > 0 && console.log([curterm, curfile, curtf, curdf].join('\t'));
 }

@@ -10,6 +10,6 @@ var rl = readline.createInterface({
 });
 
 rl.on('line', function (line) {
-	var values = line.split('\t'), term = values[0], file = values[1], tf = parseFloat(values[2]), df = parseFloat(values[3]);
-	console.log([term, file, tf * Math.log(count / df)].join('\t'));
+	var values = line.split('\t'), term = values[0], file = values[1], tf = parseFloat(values[2]), length = parseFloat(values[3]), df = parseFloat(values[4]);
+	console.log([term, file, tf / length * Math.log(count / df)].join('\t'));
 });
