@@ -1,7 +1,7 @@
 #!/usr/bin/nodejs
 
 var readline = require('readline');
-var file = process.env.INPUT_FILE;
+var file = process.env.map_input_file;
 
 var rl = readline.createInterface({
 	input: process.stdin,

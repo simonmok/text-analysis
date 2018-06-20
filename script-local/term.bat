@@ -1,11 +1,11 @@
 @ECHO OFF
 
-SET INPUT_FILE=data/file-1.txt
+SET map_input_file=data/file-1.txt
 
 mkdir temp
 node ../term-map.js < ../data/file-1.txt > temp/temp-1.txt
 
-SET INPUT_FILE=data/file-2.txt
+SET map_input_file=data/file-2.txt
 node ../term-map.js < ../data/file-2.txt > temp/temp-2.txt
 
 (type temp\temp-1.txt && type temp\temp-2.txt) > temp/temp-3.txt
