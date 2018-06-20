@@ -3,6 +3,9 @@
 hdfspath=/user/vagrant/text-analysis
 jspath=/home/vagrant/text-analysis
 
+hdfs dfs -rm -f -r $hdfspath/input
+hdfs dfs -mkdir $hdfspath/input
+hdfs dfs -put $jspath/data/*.txt $hdfspath/input
 hdfs dfs -rm -f -r $hdfspath/output-term
 
 hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming.jar \

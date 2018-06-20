@@ -12,7 +12,7 @@ var rl = readline.createInterface({
 var output = [];
 
 rl.on('line', function (line) {
-	var tokens = line.toLowerCase().replace(/[.,?\/#!$%\^&\*;:{}=\-_`~()"']/g, '').split(' ');
+	var tokens = line.toLowerCase().replace(/[.,?\/#!$%\^&\*;:{}=\-_`~()"'+|0123456789]/g, '').split(' ');
 	tokens.forEach(function (token) {
 		token.length && output.push(token);
 	});
