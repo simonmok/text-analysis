@@ -1,23 +1,25 @@
 #!/bin/bash
 
 hdfspath=/user/vagrant/text-analysis
-jspath=/home/vagrant/text-analysis
+src=/home/vagrant/text-analysis
+ext=js
+interpretor=nodejs
 
 hdfs dfs -rm -f -r $hdfspath/input
 hdfs dfs -mkdir $hdfspath/input
-hdfs dfs -put $jspath/data/*.txt $hdfspath/input
+hdfs dfs -put $src/data/*.txt $hdfspath/input
 hdfs dfs -rm -f -r $hdfspath/output-term
 
 hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming.jar \
         -D stream.num.map.output.key.fields=2 \
-        -files $jspath/term-map.js,$jspath/term-reduce.js \
+        -files $src/term-map.$ext,$src/term-reduce.$ext \
         -input $hdfspath/input \
         -output $hdfspath/output-term \
-        -mapper 'nodejs ./term-map.js' \
-        -reducer 'nodejs ./term-reduce.js'
+        -mapper "$interpretor ./term-map.$ext" \
+        -reducer "$interpretor ./term-reduce.$ext"
 
-mkdir -p $jspath/output
+mkdir -p $src/output
 
-hdfs dfs -cat $hdfspath/output-term/part-* > $jspath/output/term-output.txt
+hdfs dfs -cat $hdfspath/output-term/part-* > $src/output/term-output.txt
 
 echo Term analysis done on `date`
