@@ -6,10 +6,5 @@ import os
 count = int(os.environ['FILE_COUNT'])
 
 for line in fileinput.input():
-  fields = line.split("\t")
-  term = fields[0]
-  file = fields[1]
-  tf = int(fields[2])
-  length = int(fields[3])
-  df = int(fields[4])
-  print("%s\t%s\t%f" % (term, file, tf / length * math.log(count / df)))
+  term, file, tf, length, df = line.split()
+  print("%s\t%s\t%f" % (term, file, int(tf) / int(length) * math.log(count / int(df))))

@@ -1,28 +1,18 @@
 import fileinput
 
-prevnum = 0
-prevterm = ''
-prevfile = ''
-prevlength = 0
+prevterm, prevfile, prevnum, prevlength = '', '', 0, 0
 
 def outputLine(term, file, num, length):
   if (num > 0):
-    print("%s\t%s\t%d\t%d" % (term, file, num, length))
-  return
+    print("%s\t%s\t%d\t%s\t" % (term, file, num, length))
 
 for line in fileinput.input():
-  fields = line.split("\t")
-  term = fields[0]
-  file = fields[1]
-  num = int(fields[2])
-  length = int(fields[3])
+  term, file, num, length = line.split()
+  num = int(num)
   if (term == prevterm and file == prevfile):
     prevnum += num
   else:
     outputLine(prevterm, prevfile, prevnum, prevlength)
-    prevterm = term
-    prevfile = file
-    prevnum = num
-    prevlength = length
+    prevterm, prevfile, prevnum, prevlength = term, file, num, length
 
 outputLine(prevterm, prevfile, prevnum, prevlength)

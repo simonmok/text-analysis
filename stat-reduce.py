@@ -1,4 +1,5 @@
 import fileinput
+import sys
 
 for line in fileinput.input():
-  print line.rstrip()
+  sys.stdout.write(line)
